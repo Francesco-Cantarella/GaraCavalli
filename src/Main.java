@@ -1,3 +1,13 @@
+/* NOTA PERSONALE
+All'inizio pensavo di dover aggiungere  il try-catch per Thread.sleep(), ma penso che devo agugerlo anche in altri punit anche se non so dove.
+Ho scoperto che Thread.sleep() crea dei problemi:
+Mettendo  sleep fisso di 2 secondi per tutti i cavalli, si sincronizzavano e la gara diventava sempre uguale (magari devodiminuire lo sleep.
+
+un latro porbema e che qundo stampo risultati non tutti sono slavati perche secondo me più thread cercano di eseguire risultati.add(nome) contemporaneamente, si crea una condizione di gara che può rovinare i dati.
+cercato su internet e ho scoperto il synchronized.
+synchronized è un comando  che permette a un solo thread alla volta  di eseguire un blocco di codice, risolvendo i problemi di concorrenza. qundi se ho caito bene il codice dentro synchronized(oggetto){} viene eseguito in modo
+esclusivo da un thread per volta.
+*/
 import java.util.List;
 import java.util.Scanner;
 
@@ -6,16 +16,24 @@ public class Main {
         Scanner tastiera = new Scanner(System.in);
         System.out.print("Inserisci la lunghezza del percorso (in metri): ");
         int distanza = tastiera.nextInt();
-
         int ncavalli = 5;
-        // crea e avvia 5 thread Cavallo
+
+        // crea e avvia 5  Cavallo
         Cavallo[] cavalli = new Cavallo[ncavalli];
         for (int i = 0; i < ncavalli; i++) {
             System.out.print("Inserisci nome cavallo: ");
             String nome = tastiera.next();
             cavalli[i] = new Cavallo(nome, distanza);
-
         }
+
+        //stampo i cavalli nel ordine in cui sono stati inseriti
+        System.out.println("");
+        System.out.println("cavalli in linea di partenza");
+        for (int j = 0; j < ncavalli; j++) {
+            System.out.println((j + 1) + " " +cavalli[j].getNome());
+        }
+        System.out.println("");
+
         //faccio partire i cavalli
         for (int i = 0; i < ncavalli; i++) {
             cavalli[i].start();
@@ -25,6 +43,7 @@ public class Main {
             cavalli[i].join();
         }
         // stampa classifica finale
+
         List<String> classifica = Cavallo.getRisultato();
         System.out.println("classifica finale");
         for (int i = 0; i < classifica.size(); i++) {

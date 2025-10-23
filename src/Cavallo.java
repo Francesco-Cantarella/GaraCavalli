@@ -6,6 +6,7 @@ public class Cavallo extends Thread {
     private final int distanza;//lungezza totale del percorso
     private  int partenza = 0;//
     private static final int PASSO = 5; //2 metri
+    private static final int RIPOSO_MS = 2000; // 2 sec
 
 
     private static List<String> risultati = (new ArrayList<>());
@@ -22,10 +23,17 @@ public class Cavallo extends Thread {
         while (partenza < distanza) {
             partenza += PASSO;
             System.out.println(nome + " ha percorso " + partenza + " di  " + distanza + "m");
+            try {
+                Thread.sleep(RIPOSO_MS);
+            } catch (InterruptedException e) {
+                throw new RuntimeException(e);
+            }
         }
-        // arrivato
-        int i = risultati.size() + 1;
-        risultati.add(nome);
+
+        synchronized (risultati) {
+            risultati.add(nome);
+        }
+
 
     }
 
@@ -34,4 +42,9 @@ public class Cavallo extends Thread {
         return new ArrayList<>(risultati);
 
     }
+     //get
+    public String getNome() {
+        return nome;
+    }
+
 }
