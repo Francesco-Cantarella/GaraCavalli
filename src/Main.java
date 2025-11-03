@@ -7,9 +7,13 @@ un latro porbema e che qundo stampo risultati non tutti sono slavati perche seco
 cercato su internet e ho scoperto il synchronized.
 synchronized è un comando  che permette a un solo thread alla volta  di eseguire un blocco di codice, risolvendo i problemi di concorrenza. qundi se ho caito bene il codice dentro synchronized(oggetto){} viene eseguito in modo
 esclusivo da un thread per volta.
+il file di nome classifica.md lo rannato una volta per porva lascando il risultato.
 */
 import java.util.List;
 import java.util.Scanner;
+import java.util.Random;
+import java.io.FileWriter;
+import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) throws InterruptedException {
@@ -34,13 +38,23 @@ public class Main {
         }
         System.out.println("");
 
+        //cavallo azoppato casuale
+        Random random = new Random();
+        int azzoppatoIndex = random.nextInt(ncavalli);
+        System.out.println("Il cavallo azzoppato è: " + cavalli[azzoppatoIndex].getNome() + " (non partecipa alla gara)");
+
         //faccio partire i cavalli
         for (int i = 0; i < ncavalli; i++) {
-            cavalli[i].start();
+            if (i != azzoppatoIndex) {
+                cavalli[i].start();
+            }
         }
+
         //per fare apsettare gli latri tread la fine di tutti
         for (int i = 0; i < ncavalli; i++) {
-            cavalli[i].join();
+            if (i != azzoppatoIndex) {
+                cavalli[i].join();
+            }
         }
         // stampa classifica finale
 
@@ -48,6 +62,18 @@ public class Main {
         System.out.println("classifica finale");
         for (int i = 0; i < classifica.size(); i++) {
             System.out.println((i + 1) + " " + classifica.get(i));
+        }
+
+        //file dele classifiche
+        try (FileWriter writer = new FileWriter("classifica.md")) {
+            writer.write("# Classifica Finale\n\n");
+            for (int i = 0; i < classifica.size(); i++) {
+                writer.write((i + 1) + ". **" + classifica.get(i) + "**\n");
+            }
+            writer.write("cavallo azzoppato: " + cavalli[azzoppatoIndex].getNome() + "\n");
+            System.out.println("Classifica salvata su file: classifica.md");
+        } catch (IOException e) {
+            System.err.println("Errore nel salvataggio del file: " + e.getMessage());
         }
     }
 }

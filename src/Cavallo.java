@@ -42,7 +42,7 @@ public class Cavallo extends Thread {
         return new ArrayList<>(risultati);
 
     }
-     //get
+    //get
     public String getNome() {
         return nome;
     }
