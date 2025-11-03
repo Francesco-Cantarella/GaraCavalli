@@ -7,7 +7,7 @@ un latro porbema e che qundo stampo risultati non tutti sono slavati perche seco
 cercato su internet e ho scoperto il synchronized.
 synchronized è un comando  che permette a un solo thread alla volta  di eseguire un blocco di codice, risolvendo i problemi di concorrenza. qundi se ho caito bene il codice dentro synchronized(oggetto){} viene eseguito in modo
 esclusivo da un thread per volta.
-il file di nome classifica.md lo rannato una volta per porva lascando il risultato.
+il file di nome classifica.md lo rannato una volta per porva lascando il risultato
 */
 import java.util.List;
 import java.util.Scanner;
