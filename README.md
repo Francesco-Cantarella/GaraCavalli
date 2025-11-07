@@ -3,8 +3,6 @@
 
 ## Note Personali e Problemi Riscontrati
 
-Il seguente testo riflette le note originali dello sviluppatore riguardo ai problemi di concorrenza e alle soluzioni implementate:
-
 NOTA PERSONALE
 All'inizio pensavo di dover aggiungere il try-catch per Thread.sleep(), ma penso che devo agugerlo anche in altri punit anche se non so dove.
 Ho scoperto che Thread.sleep() crea dei problemi:
