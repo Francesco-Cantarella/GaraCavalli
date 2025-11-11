@@ -15,6 +15,9 @@ import java.util.Random;
 import java.io.FileWriter;
 import java.io.IOException;
 
+/**
+ * @author Cantarella Francesco
+ */
 public class Main {
     public static void main(String[] args) throws InterruptedException {
         Scanner tastiera = new Scanner(System.in);
@@ -40,19 +43,19 @@ public class Main {
 
         //cavallo azoppato casuale
         Random random = new Random();
-        int azzoppatoIndex = random.nextInt(ncavalli);
-        System.out.println("Il cavallo azzoppato è: " + cavalli[azzoppatoIndex].getNome() + " (non partecipa alla gara)");
+        int azzoppato = random.nextInt(ncavalli);
+        System.out.println("Il cavallo azzoppato è: " + cavalli[azzoppato].getNome() + " non partecipa alla gara");
 
         //faccio partire i cavalli
         for (int i = 0; i < ncavalli; i++) {
-            if (i != azzoppatoIndex) {
+            if (i != azzoppato) {
                 cavalli[i].start();
             }
         }
 
         //per fare apsettare gli latri tread la fine di tutti
         for (int i = 0; i < ncavalli; i++) {
-            if (i != azzoppatoIndex) {
+            if (i != azzoppato) {
                 cavalli[i].join();
             }
         }
@@ -65,13 +68,13 @@ public class Main {
         }
 
         //file dele classifiche
-        try (FileWriter writer = new FileWriter("classifica.md")) {
-            writer.write("# Classifica Finale\n\n");
+        try (FileWriter writer = new FileWriter("classifica.txt")) {
+            writer.write("Classifica Finale\n");
             for (int i = 0; i < classifica.size(); i++) {
-                writer.write((i + 1) + ". **" + classifica.get(i) + "**\n");
+                writer.write((i + 1) + classifica.get(i) + "\n");
             }
-            writer.write("cavallo azzoppato: " + cavalli[azzoppatoIndex].getNome() + "\n");
-            System.out.println("Classifica salvata su file: classifica.md");
+            writer.write("cavallo azzoppato: " + cavalli[azzoppato].getNome() + "\n");
+            System.out.println("Classifica salvata su file: classifica.txt");
         } catch (IOException e) {
             System.err.println("Errore nel salvataggio del file: " + e.getMessage());
         }
